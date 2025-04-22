@@ -2,7 +2,7 @@ name: Deploy para Produção
 
 on:
   push:
-    branches: [ "main" ] # Dispara o workflow quando houver um push na branch 'main'
+    branches: [ "main" ]
 
 jobs:
   deploy:
@@ -12,26 +12,16 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Configurar SSH
-        uses: webfactory/ssh-action@v1
+      - name: Configurar SSH e Deploy
+        uses: appleboy/ssh-action@v1.0.3 # Use uma versão específica para evitar quebras futuras
         with:
-          ssh_host: granja.quixada.ufc.br
-          ssh_port: 20258
-          ssh_username: ubuntu
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }} # Armazene sua chave privada como um segredo no GitHub
-
-      - name: Fazer pull do repositório no servidor
-        run: |
-          ssh ubuntu@granja.quixada.ufc.br -p 20258 'cd /home/ubuntu/containers/chamada && git pull origin main'
-
-      - name: Parar e remover os contêineres antigos
-        run: |
-          ssh ubuntu@granja.quixada.ufc.br -p 20258 'cd /home/ubuntu/containers/chamada && docker-compose down'
-
-      - name: Iniciar os novos contêineres com reconstrução forçada
-        run: |
-          ssh ubuntu@granja.quixada.ufc.br -p 20258 'cd /home/ubuntu/containers/chamada && docker-compose up -d --build --force-recreate'
-
-      - name: Limpar imagens Docker antigas (opcional)
-        run: |
-          ssh ubuntu@granja.quixada.ufc.br -p 20258 'docker system prune -af --filter "until=24h"' # Remove imagens não utilizadas com mais de 24 horas
+          host: ${{ secrets.SSH_HOST }} # É uma boa prática usar segredos para todas as informações sensíveis
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/containers/chamada
+            git pull origin main
+            docker-compose down
+            docker-compose up -d --build --force-recreate
+            docker system prune -af --filter "until=24h" # Opcional
