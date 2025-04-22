@@ -22,6 +22,6 @@ jobs:
           script: |
             cd /home/ubuntu/containers/chamada
             git pull origin main
-            docker-compose down
-            docker-compose up -d --build --force-recreate
+            docker compose down
+            docker compose up -d --build --force-recreate
             docker system prune -af --filter "until=24h" # Opcional
