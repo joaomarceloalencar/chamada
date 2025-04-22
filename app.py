@@ -2,12 +2,17 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from google.oauth2 import id_token
 from google.auth.transport import requests
+import logging
 
 APPLICATION_ROOT = os.getenv('APPLICATION_ROOT', '')
-print(f"APPLICATION_ROOT está definido como: '{APPLICATION_ROOT}'")
+# Configuração de logging para um arquivo
+logging.basicConfig(filename='/app/app.log', level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
+logging.debug(f"APPLICATION_ROOT está definido como: '{APPLICATION_ROOT}'")
 
 app = Flask(__name__)
+
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'sua_chave_secreta_padrao_para_dev')
 
 GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
