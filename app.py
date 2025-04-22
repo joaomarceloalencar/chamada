@@ -43,7 +43,7 @@ def google_login():
                 session['user_name'] = name    # Armazena o nome na sessão
                 print(f"Email armazenado na sessão: {session.get('user_email')}")
                 print(f"Nome armazenado na sessão: {session.get('user_name')}")
-                return redirect(url_for('profile'))
+                return redirect(APPLICATION_ROOT + url_for('profile'))
             else:
                 return "Login não permitido para este domínio.", 403
 
@@ -61,7 +61,7 @@ def profile():
         user_name = session.get('user_name')
         return render_template('profile.html', user_email=user_email, user_name=user_name)
     else:
-        return redirect(url_for('index'))
+        return redirect(APPLICATION_ROOT + url_for('index'))
 
 @app.route('/logout')
 def logout():
