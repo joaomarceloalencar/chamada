@@ -67,7 +67,7 @@ def profile():
 def logout():
     """Rota para deslogar o usuário."""
     session.pop('user_email', None)
-    return redirect(url_for('index'))
+    return redirect(APPLICATION_ROOT + url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)
