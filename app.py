@@ -59,7 +59,8 @@ def profile():
     if 'user_email' in session:
         user_email = session['user_email']
         user_name = session.get('user_name')
-        return render_template('profile.html', user_email=user_email, user_name=user_name)
+        application_root = APPLICATION_ROOT
+        return render_template('profile.html', user_email=user_email, user_name=user_name, APPLICATION_ROOT=application_root)
     else:
         return redirect(APPLICATION_ROOT + url_for('index'))
 

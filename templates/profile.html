@@ -9,9 +9,24 @@
         <p>Olá, {{ user_name }}!</p>
         <p>Seu e-mail de login é: {{ user_email }}</p>
         <p><a href="{{ url_for('logout') }}">Sair</a></p>
+        <p><a href="{{ url_for('index') }}">Voltar para a página inicial</a></p>
     {% else %}
         <p>Você não está logado.</p>
         <p><a href="{{ url_for('index') }}">Voltar para a tela de login</a></p>
     {% endif %}
+
+    <script>
+        const applicationRoot = "{{ APPLICATION_ROOT }}";
+        const logoutLink = document.querySelector("a[href='{{ url_for('logout') }}']");
+        const indexLinks = document.querySelectorAll("a[href='{{ url_for('index') }}']");
+
+        if (logoutLink) {
+            logoutLink.setAttribute('href', applicationRoot + "{{ url_for('logout') }}");
+        }
+
+        indexLinks.forEach(link => {
+            link.setAttribute('href', applicationRoot + "{{ url_for('index') }}");
+        });
+    </script>
 </body>
 </html>
