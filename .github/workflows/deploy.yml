@@ -9,9 +9,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
-
       - name: Configurar SSH e Deploy
         uses: appleboy/ssh-action@v1.0.3 # Use uma versão específica para evitar quebras futuras
         with:
