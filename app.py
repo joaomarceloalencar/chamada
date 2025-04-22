@@ -3,6 +3,8 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
+APPLICATION_ROOT = os.getenv('APPLICATION_ROOT', '')
+
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'sua_chave_secreta_padrao_para_dev')
 
